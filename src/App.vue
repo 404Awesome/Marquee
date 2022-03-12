@@ -8,11 +8,16 @@ import Marquee from "./components/marquee/Marquee.vue"
 
 <style lang="scss">
 @font-face {
-  font-family: "AlibabaPuHuiTi";
-  src: url("./assets/AlibabaPuHuiTi.ttf");
+  font-family: "MiSans";
+  src: url("./assets/MiSans.ttf");
 }
 
 body {
-  font-family: "AlibabaPuHuiTi";
+  font-family: "MiSans";
+}
+
+.box {
+  height: 100vh;
+  background-color: #eee;
 }
 </style>
