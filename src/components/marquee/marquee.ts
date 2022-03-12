@@ -7,9 +7,9 @@ type InsertContent = {
    remove: boolean
 }
 type ObserverConfig = {
-   root: HTMLElement | null,
+   root?: HTMLElement | null,
    rootMargin: string,
-   threshold: Array<number>
+   threshold?: Array<number>
 }
 type ObserverCallBack = {
    (entries: object, observer: object): void
@@ -51,7 +51,7 @@ class Utils {
    // traverse 是否遍历元素
    protected Observer<T>(el: T, callback: ObserverCallBack, traverse: boolean, config?: ObserverConfig) {
       // 配置项
-      config = config || { root: null, rootMargin: "0px 0px 0px 0px", threshold: [0.01] };
+      config = Object.assign({ root: null, rootMargin: "0px 0px 0px 0px", threshold: [0.01] }, config);
       // 创建 Observer 实例
       let observer = new IntersectionObserver((entries, observer) => {
          callback(entries, observer);
@@ -81,11 +81,26 @@ class Utils {
       this.observerList.push(observer);
    }
 
-
    // hitokoto 一言API
    protected async HitokotoAPI() {
       let res = await fetch("https://v1.hitokoto.cn").then(response => response.json());
       return { content: res.hitokoto, from: res.from };
+   }
+
+   // 判断设备为PC或者移动端
+   protected isPC() {
+      var userAgentInfo = navigator.userAgent;
+      var Agents = ["Android", "iPhone",
+         "SymbianOS", "Windows Phone",
+         "iPad", "iPod"];
+      var flag = true;
+      for (var v = 0; v < Agents.length; v++) {
+         if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+         }
+      }
+      return flag;
    }
 }
 
@@ -132,7 +147,10 @@ export default class Marquee<T> extends Utils {
    Init() {
       // 处理 Wrapper
       let wrapperEL: HTMLElement = (this.contentEL as any).parentElement;
-      this.Observer(wrapperEL, this.handleWrapper.bind(this), false);
+      // 获取设备类型
+      let isPC = this.isPC();
+      let config = isPC ? { rootMargin: "0px 0px -300px 0px" } : { rootMargin: "0px 0px -250px 0px" };
+      this.Observer(wrapperEL, this.handleWrapper.bind(this), false, config);
 
       // 处理 Content
       this.Observer(this.contentEL, this.handleContent.bind(this), true);

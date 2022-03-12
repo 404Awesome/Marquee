@@ -1,9 +1,15 @@
 <template>
-  <Marquee />
+  <main class="main">
+    <Head />
+    <Marquee />
+  </main>
+  <Foot />
 </template>
 
 <script setup lang="ts">
 import Marquee from "./components/marquee/Marquee.vue"
+import Head from "./components/header/Head.vue"
+import Foot from "./components/footer/Foot.vue"
 </script>
 
 <style lang="scss">
@@ -16,8 +22,9 @@ body {
   font-family: "MiSans";
 }
 
-.box {
-  height: 100vh;
-  background-color: #eee;
+.main {
+  position: relative;
+  z-index: 999;
+  margin-bottom: 100px;
 }
 </style>
