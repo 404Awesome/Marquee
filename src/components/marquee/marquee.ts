@@ -60,19 +60,19 @@ class Utils {
       // 绑定监听对象
       if (traverse) {
          // 使用一言API
-         // insertContent.map((item, index) => {
-         //    this.HitokotoAPI().then(res => {
-         //       item.content = res.content;
-         //       item.from = res.from;
-         //    }).then(() => {
-         //       observer.observe((el as any).children[index]);
-         //    })
-         // })
+         insertContent.map((item, index) => {
+            this.HitokotoAPI().then(res => {
+               item.content = res.content;
+               item.from = res.from;
+            }).then(() => {
+               observer.observe((el as any).children[index]);
+            })
+         })
 
          // 使用死数据
-         Array.from((el as any).children).map(item => {
-            observer.observe((item as any));
-         })
+         // Array.from((el as any).children).map(item => {
+         //    observer.observe((item as any));
+         // })
       } else {
          observer.observe(el as any);
       }
